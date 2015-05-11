@@ -100,7 +100,7 @@ class User{
 	}
 
 	public function setActive($token){
-		$query = sprintf('SELECT TOKEN FROM %sPENDING WHERE USER_ID = %d AND $token = "%s"',DB_TBL_PREFIX, $this->uid, mysql_real_escape_string($token, $GLOBALS['DB']));
+		$query = sprintf('SELECT TOKEN FROM %sPENDING WHERE USER_ID = %d AND TOKEN = "%s"',DB_TBL_PREFIX, $this->uid, mysql_real_escape_string($token, $GLOBALS['DB']));
 		$reuslt = mysql_query($query);
 		if (!mysql_num_rows($reuslt)){
 			mysql_free_result($result);
