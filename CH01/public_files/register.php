@@ -56,6 +56,16 @@ if(!isset($_POST['submitted'])){
 			$user-> emailAddr = $_POST['email'];
 			$token = $user->setInactive();
 
+            //发送邮件验证。但是mail函数无法正常使用
+			// $message = 'Thank you for signing up for an account! Before you can login you need to verify your account. You can do so'.
+			// 'by visiting http://localhost/verify.php?uid='.$user-> userId.'&token='.$token.'.';
+			// if (@mail($user-> emailAddr, 'Activate your new account', $message)){
+			// 	$GLOBALS['TEMPLATE']['content'] = '<p><storng> Thank you for registering.</storng></p><p> You will be receiving an email shortly with instructions on activating your account.</p>';
+			// }else{
+			// 	$GLOBALS['TEMPLATE']['content'] = '<p><storng> There was an error sending you the activation link.</storng></p>'.
+			// 	'<p> Please contact the site administartor at <a href="mailto:admin@example.com">admin@example.com</a> for assistance.</p>';
+			// }
+            //本页跳转验证
 			$GLOBALS['TEMPLATE']['content'] = '<p><storng> Thank you for registering.</storng></p>'.
 			'<p> Be sure to verify your account by visiting <a href="verify.php?uid='.$user-> userId.'& token='.$token.'">verify.php?uid='.$user-> userId.' & token ='.$token.'</a></p>';
 		}

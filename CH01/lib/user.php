@@ -5,7 +5,10 @@ class User{
 
 	public function __construct() {
 		$this-> uid = null;
-		$this-> fields = array('username' => '', 'password' => '', 'emailAddr' => '', 'isActive' => false);
+		$this-> fields = array('username' => '',
+		                       'password' => '', 
+		                       'emailAddr' => '', 
+		                       'isActive' => false);
 	}
 
 	public function __get($field)
@@ -48,25 +51,29 @@ class User{
 		return $user;
 	}
 
+
 	public static function getByUsername($username){
-		$user = new User();
-		$query = sprintf('SELECT USER_ID, PASSWORD, EMAIL_ADDR, IS_ACTIVE FROM %sUSER WHERE USERNAME = "%s"', DB_TBL_PREFIX, mysql_real_escape_string($username, $GLOBALS['DB']));
-		$reuslt = mysql_query($query, $GLOBALS['DB']);
+		$u = new User();
+		$query = sprintf('SELECT USER_ID, PASSWORD, EMAIL_ADDR, IS_ACTIVE FROM %sUSER WHERE USERNAME = "%s"', 
+			     DB_TBL_PREFIX, 
+			     mysql_real_escape_string($username, $GLOBALS['DB']));
+		$result = mysql_query($query, $GLOBALS['DB']);
 		if (mysql_num_rows($result)){
 			$row = mysql_fetch_assoc($result);
-			$user-> username = $username;
-			$user-> password = $row['PASSWORD'];
-			$user-> emailAddr = $row['EMAIL_ADDR'];
-			$user-> isActive = $row['IS_ACTIVE'];
-			$user-> uid = $row['USER_ID'];
+			$u->username = $username;
+			$u->password = $row['PASSWORD'];
+			$u->emailAddr = $row['EMAIL_ADDR'];
+			$u->isActive = $row['IS_ACTIVE'];
+			$u->uid = $row['USER_ID'];
 		}
 		mysql_free_result($result);
-		return $user;
+		return $u;
 	}
 
 	public function save(){
 		if ($this->uid){
-			$query = sprintf('UPDATE %sUSER SET USERNAME = "%s", PASSWORD = "%s", EMAIL_ADDR = "%s", IS_ACTIVE = %d WHERE USER_ID = %d', DB_TBL_PREFIX,
+			$query = sprintf('UPDATE %sUSER SET USERNAME = "%s", PASSWORD = "%s",'.
+				' EMAIL_ADDR = "%s", IS_ACTIVE = %d WHERE USER_ID = %d', DB_TBL_PREFIX,
 				mysql_real_escape_string($this-> username, $GLOBALS['DB']),
 				mysql_real_escape_string($this-> password, $GLOBALS['DB']),
 				mysql_real_escape_string($this-> emailAddr, $GLOBALS['DB']),
@@ -74,7 +81,8 @@ class User{
 			return mysql_query($query, $GLOBALS['DB']);
 		}
 		else{
-			$query = sprintf('INSERT INTO %sUSER (USERNAME, PASSWORD, EMAIL_ADDR, IS_ACTIVE) VALUES ("%s", "%s", "%s", %d)', 
+			$query = sprintf('INSERT INTO %sUSER (USERNAME, PASSWORD, EMAIL_ADDR, IS_ACTIVE)'.
+				' VALUES ("%s", "%s", "%s", %d)', 
 				DB_TBL_PREFIX,
 				mysql_real_escape_string($this-> username, $GLOBALS['DB']),
 				mysql_real_escape_string($this-> password, $GLOBALS['DB']),
